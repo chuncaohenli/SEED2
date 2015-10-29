@@ -1,9 +1,14 @@
 # SEED2
-[TOC]
+
+[What is SEED2] (#What is SEED2)  
+[How is SEED2 different from SEED?] (#How is SEED2 different from SEED?)  
+[How to use SEED2?] (#How to use SEED2?)  
+
+<a name="overview"/>
 ##What is SEED2
 
 SEED2 is the 2nd version of SEED(https://github.com/baoe/SEED), a software for clustering large sets of Next Generation Sequences (NGS) with hundreds of millions of reads in a time and memory efficient manner. 
-
+<a name="How is SEED2 different from SEED?"/>
 ##How is SEED2 different from SEED?
 
 SEED is an efficient software for clustering large sets of hundreds of millions of reads, but sometimes the cluster result can be uneven, and the size of the cluster can be too large or too small. 
@@ -12,7 +17,7 @@ SEED2 is designed to solve this problem. And the differences are given below.
 
 1. SEED2 needs to specify mismatch and shift for 2 times, compared with SEED
 2. SEED2 gets more even cluster results while it cost more time than SEED
-
+<a name="How to use SEED2?"/>
 ##How to use SEED2?
 
 ###Input&Output
