@@ -54,6 +54,9 @@ QV1 is the threshold for the base call quality values (QV) that are provided in 
 It prevents co-clustering of sequences where the sum of all mismatched positions is higher than the threshold value (0 - 6 * 93). The default value for QV2 is 6 * 93
 
 	--reverse	co-cluster sequences in sense and anti-sense orientation (reverse and complement)
+	
+    --KM1 use [1st mapping strategy][1] for K-means part (default choice)
+	--KM2 use [2nd mapping strategy][2] for K-means part
 
 ####Others
 
@@ -63,8 +66,8 @@ It prevents co-clustering of sequences where the sum of all mismatched positions
 
 1. Basic usage:
 
-SEED2 –-input input.fastq –-output output.txt
+        SEED2 –-input input.fastq –-output output.txt
 
 2. Run in user defined mode and tune the sensitivity manually
 
-SEED2 –-input input.fastq -–output output.txt –L 30 –W 12 –S1 2 –M1 4 --reverse
+        SEED2 –-input input.fastq -–output output.txt –L 30 –W 12 –S1 2 –M1 4 --reverse
