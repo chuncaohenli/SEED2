@@ -17,6 +17,7 @@ SEED2 is designed to solve this problem. And the differences are given below.
 
 1. SEED2 needs to specify mismatch and shift for 2 times, compared with SEED
 2. SEED2 gets more even cluster results while it cost more time than SEED
+
 <a name="How to use SEED2?"/>
 ##How to use SEED2?
 
