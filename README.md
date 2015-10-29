@@ -3,6 +3,7 @@
 [What is SEED2] (#What is SEED2)  
 [How is SEED2 different from SEED?] (#How is SEED2 different from SEED?)  
 [How to use SEED2?] (#How to use SEED2?)  
+[Algorithm Detail] (#Algorithm Detail)
 
 <a name="overview"/>
 ##What is SEED2
@@ -60,8 +61,8 @@ It prevents co-clustering of sequences where the sum of all mismatched positions
 
 `--reverse`	co-cluster sequences in sense and anti-sense orientation (reverse and complement)
 	
-`--KM1` use [1st mapping strategy][1] for K-means part (default choice)
-`--KM2` use [2nd mapping strategy][2] for K-means part
+`--KM1` use [1st mapping strategy](#1map) for K-means part (default choice)
+`--KM2` use [2nd mapping strategy](#2map) for K-means part
 
 ####Others
 
@@ -78,3 +79,10 @@ $ SEED2 –-input input.fastq –-output output.txt
 ```
 $ SEED2 –-input input.fastq -–output output.txt –L 30 –W 12 –S1 2 –M1 4 --reverse
 ```
+
+<a name="Algorithm Detail">
+##Algorithm Detail
+<a name="1map">
+####1st mapping algorithm
+<a name="2map">
+####2nd mapping algorithm
