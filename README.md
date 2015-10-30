@@ -82,6 +82,22 @@ $ SEED2 –-input input.fastq -–output output.txt –L 30 –W 12 –S1 2 –M
 
 <a name="Algorithm Detail">
 ##Algorithm Detail
+
+```flow
+st=>start: Start
+e=>end: End
+op1=>operation: SEED
+op2=>operation: SEED2
+op3=>operation: k-means
+con=>condition: Continue?(Y/N)
+
+st->op1->con
+con(yes)->op2->op3->e
+con(no)->e
+
+
+```
+
 <a name="1map">
 ####1st mapping algorithm
 <a name="2map">
