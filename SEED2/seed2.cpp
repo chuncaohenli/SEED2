@@ -777,7 +777,7 @@ void Cluster::calConsensus(char sBuf[], unsigned int sSeqID, int & tagReverse)
 		for(i = 0; i < lowerSizeInChar; i ++)
 		{
 
-			// ×ªÂë GXX   
+			// è½¬ç  GXX   
 			if ((int)sBuf[i] == 0)
 			{
 				//cout << 'A';
@@ -2093,10 +2093,10 @@ void print()
 	cout << "Usage:" << endl;
 	cout << "\t./seed --input <FILE> --output <FILE> [options]*" << endl;
 	cout << "Options:" << endl;
-	cout << "\t-M1 <int>\tmax # mismatches in first seed alignment (0 - 3, default 3)" << endl;
-	cout << "\t-S1 <int>\tmax # shifts in first seed alignment (0 - 6, default 3)" << endl;
-	cout << "\t-M2 <int>\tmax # mismatches in first seed alignment (0 - 20, default 10)" << endl;
-	cout << "\t-S2 <int>\tmax # shifts in first seed alignment (0 - 6, default 3)" << endl;
+	cout << "\t--M1 <int>\tmax # mismatches in first seed alignment (0 - 3, default 3)" << endl;
+	cout << "\t--S1 <int>\tmax # shifts in first seed alignment (0 - 6, default 3)" << endl;
+	cout << "\t--M2 <int>\tmax # mismatches in first seed alignment (0 - 20, default 10)" << endl;
+	cout << "\t--S2 <int>\tmax # shifts in first seed alignment (0 - 6, default 3)" << endl;
 	cout << "\t--QV1    \tthreshold for the base call quality values (QV)" << endl;
 	cout << "\t--QV2    \tanother QV threshold" << endl;
 	cout << "\t--default\trun in default mode" << endl;
@@ -2104,9 +2104,8 @@ void print()
 	cout << "\t--short  \trun in short mode" << endl;
 	cout << "\t--reverse\t" << endl;
 	cout << "\t--input2 <FILE>\tspecifies the paired sequences" << endl;
-	cout << "User-defined Model(replace default,fast or short mode):" << endl;
-	cout << "\t-L  <int>\tlength of seed " << endl;
-	cout << "\t-N  <int>\tnum of seed" << endl;
+	cout << "\t--L <int>\tuse 1st mapping algorithm" << endl;
+	cout << "\t--N <int>\tuse 2nd mapping algorithm" << endl;
 	cout << "Without options, seed will run in default mode (see more in the manual)" << endl;
 
 }
@@ -2512,7 +2511,7 @@ void set_seeds(int l,int w){
 	for(; index < num_block_one; index++){
 		origin_seed[index] = 1;
 	}
-	// Èç¹ûÊı×éÖµÎª0µÄ»°£¬next_permutationº¯Êı»áºöÂÔÖ®£¬±ÈÈç '11000' Ö»»áÓĞÒ»¸öÅÅÁĞÊä³ö
+	// å¦‚æœæ•°ç»„å€¼ä¸º0çš„è¯ï¼Œnext_permutationå‡½æ•°ä¼šå¿½ç•¥ä¹‹ï¼Œæ¯”å¦‚ '11000' åªä¼šæœ‰ä¸€ä¸ªæ’åˆ—è¾“å‡º
 	for(; index < num_block_seed; index++){
 		origin_seed[index] = 2;
 	}
@@ -2536,7 +2535,7 @@ void set_seeds(int l,int w){
 		index++;
 	}while(next_permutation(origin_seed,origin_seed+num_block_seed));
 
-	// ÏÔÊ¾ seed Êı×é½á¹û
+	// æ˜¾ç¤º seed æ•°ç»„ç»“æœ
 	/*
 	for (int i=0; i<num_seeds; i++)
 	{
@@ -2550,7 +2549,78 @@ void set_seeds(int l,int w){
 
 }
 
-multimap<int,string> K_Means(multimap<int,string> clid_seq,int expectation_int){
+multimap<int,string> K_Means_2(multimap<int,string> clid_seq,int expectation_int){
+
+	map<int, string>::iterator iter;
+	int data_size = clid_seq[0]->second.length()  *  clid_seq.size(); 
+	/*
+	for(iter = clid_seq.begin(); iter !=clid_seq.end(); iter++){
+		string seq = iter->second;
+		if (seq.length() > data_size){
+			data_size = seq.length();
+		}
+	}*/
+
+	double *data = new double[data_size];
+
+	for (int i=0; i<data_size; i++){
+		data[i] = 0.0;
+	}
+
+
+	int counter_data = 0;
+	// A-1 C-2 G-3 T-4
+	for(iter = clid_seq.begin(); iter !=clid_seq.end(); iter++){
+		string seq = iter->second;
+		for (int i=0; i<seq.size();i++)
+		{
+			if (seq[i] == 'A')
+			{
+				data[counter_data++] = 1;
+			} else if(seq[i] == 'C'){
+				data[counter_data++] = 2;
+			} else if(seq[i] == 'G'){
+				data[counter_data++] = 3;
+			} else if(seq[i] == 'T'){
+				data[counter_data++] = 4;
+			}
+		}
+
+	}
+
+	const int size = clid_seq.size(); //Number of samples
+	const int dim = clid_seq[0]->second.length();   //Dimension of feature
+	const int cluster_num = clid_seq.size() / expectation_int + 1; //Cluster number
+
+	KMeans* kmeans = new KMeans(dim,cluster_num);
+	int* labels = new int[size];
+	kmeans->SetInitMode(KMeans::InitRandom);
+	kmeans->Cluster(data,size,labels);
+
+	ofstream ofile;
+	ofile.open("k-means.txt",ios::app);
+
+	multimap<int,string> clid_seq_kmeans;
+	int i=0;
+	ofile << "CLID\t" << clid_seq.begin()->first << endl;
+	for(iter = clid_seq.begin(); iter !=clid_seq.end(); iter++){
+		string seq = iter->second;
+		ofile << seq << endl;
+		ofile << labels[i] << "\t["<< data[i*dim+0] << ','<< data[i*dim+1]<< ','<< data[i*dim+2]<< ','<< data[i*dim+3] << "]" <<endl;
+
+		clid_seq_kmeans.insert(pair<int,string>(labels[i],seq));
+
+		i++;
+	}
+
+	clid_seq.clear();
+	delete []labels;
+	delete kmeans;
+
+	return clid_seq_kmeans;
+}
+
+multimap<int,string> K_Means_1(multimap<int,string> clid_seq,int expectation_int){
 
 	map<int, string>::iterator iter;
 
@@ -2629,7 +2699,6 @@ multimap<int,string> K_Means(multimap<int,string> clid_seq,int expectation_int){
 
 
 
-
 /************************************************************************/
 /* argv[]
    0 ...\\Seed.exe
@@ -2647,6 +2716,7 @@ int main(int argc, char * argv[])
 
 	int tag_input=0,tag_output=0,tag_mismatch1=0,tag_shift1=0,tag_mismatch2=0,tag_shift2=0;
 	int tag_L = 0,tag_N = 0,tag_fast=0,tag_short=0,tag_default=0;
+	int tag_KM1 = 0,tag_KM2 = 0,KM_flag = 1;
 	int argv_mismatch1=3,argv_shift1=3,argv_mismatch2=10,argv_shift2=3,argv_L=30,argv_N=12;
 
 	for(int i=1; i<argc; i++){
@@ -2682,7 +2752,7 @@ int main(int argc, char * argv[])
 			i++;
 
 		} 
-		else if(strcmp(argv[i], "-M1") == 0){
+		else if(strcmp(argv[i], "--M1") == 0){
 			if(tag_mismatch1 > 0 || i == argc - 1)
 			{
 				print();
@@ -2693,7 +2763,7 @@ int main(int argc, char * argv[])
 			i++;
 
 		} 
-		else if(strcmp(argv[i], "-S1") == 0){
+		else if(strcmp(argv[i], "--S1") == 0){
 			if(tag_shift1 > 0|| i == argc - 1)
 			{
 				print();
@@ -2704,7 +2774,7 @@ int main(int argc, char * argv[])
 			i++;
 
 		} 
-		else if(strcmp(argv[i], "-M2") == 0){
+		else if(strcmp(argv[i], "--M2") == 0){
 			if(tag_mismatch2 > 0 || i == argc - 1)
 			{
 				print();
@@ -2716,7 +2786,7 @@ int main(int argc, char * argv[])
 			i++;
 
 		}
-		else if(strcmp(argv[i], "-S2") == 0){
+		else if(strcmp(argv[i], "--S2") == 0){
 			if(tag_shift2 > 0 || i == argc - 1)
 			{
 				print();
@@ -2725,30 +2795,6 @@ int main(int argc, char * argv[])
 
 			argv_shift2 = atoi(argv[i+1]);
 			tag_shift2 = i;
-		}
-		else if(strcmp(argv[i], "-L") == 0){
-			if(tag_L == 1 || i == argc - 1)
-			{
-				print();
-				return 0;
-			}
-
-			argv_L = atoi(argv[i+1]);
-			tag_L = 1;
-			i++;
-
-		}
-		else if(strcmp(argv[i], "-N") == 0){
-			if(tag_N == 1 || i == argc - 1)
-			{
-				print();
-				return 0;
-			}
-
-			argv_N = atoi(argv[i+1]);
-			tag_N = 1;
-			i++;
-
 		}
 		else if(strcmp(argv[i], "--fast") == 0){
 			if(tag_fast == 1 || i == argc - 1)
@@ -2786,6 +2832,26 @@ int main(int argc, char * argv[])
 
 			tag_default = i;
 		}
+		else if(strcmp(argv[i], "--KM1") == 0){
+			if(tag_KM1 > 0 || i == argc - 1)
+			{
+				print();
+				return 0;
+			}
+
+			tag_KM1 = 1;
+			KM_flag = 1;
+		}
+		else if(strcmp(argv[i], "--KM2") == 0){
+			if(tag_KM2 > 0 || i == argc - 1)
+			{
+				print();
+				return 0;
+			}
+
+			tag_KM2 = 1;
+			KM_flag = 2;
+		}
 	
 
 	}
@@ -2797,8 +2863,8 @@ int main(int argc, char * argv[])
 
 
 
-	if((tag_L == 0 && tag_N ==1) || (tag_L == 1 && tag_N ==0)){
-		cout << "L and N must be set at the same time" << endl;
+	if(tag_KM2 == 1 && tag_KM1 ==1){
+		cout << "KM1 and KM2 cannot be set at the same time" << endl;
 		print();
 		return 0;
 	} 
@@ -2874,7 +2940,7 @@ int main(int argc, char * argv[])
 	int num_cluster=0;
 	int num_per_cluster=0;
 
-	multimap<int,int> cluster_seed_output;   // ½«output.txt ¶ÁÈë   left: Cluster ±àºÅ  right£ºÔ­ÓĞsequence id    
+	multimap<int,int> cluster_seed_output;   // å°†output.txt è¯»å…¥   left: Cluster ç¼–å·  rightï¼šåŸæœ‰sequence id    
 	multimap<int,int> cluster_seed_output3,cluster_seed_output2;
 	
 	cout << "Running Seed For the First Time" << endl;
@@ -2892,7 +2958,7 @@ int main(int argc, char * argv[])
 	}
 
 	old_seed(new_argc,new_argv);
-	// ±ÜÃâ input2.fastq Ğ´Á½±é
+	// é¿å… input2.fastq å†™ä¸¤é
 	ofile.open ("input3.fastq", ios::out|ios::trunc);
 	// statictic for fisrt seed
 	statis_data << "First Seed Result" << endl;
@@ -2903,7 +2969,7 @@ int main(int argc, char * argv[])
 	ifstream ifile (output);
 	if (ifile.is_open())
 	{
-		getline (ifile,line); // ¶ÁµôÊ×ĞĞ
+		getline (ifile,line); // è¯»æ‰é¦–è¡Œ
 		while ( getline (ifile,line) )
 		{
 
@@ -2951,10 +3017,23 @@ int main(int argc, char * argv[])
 		}
 	}
 
+	// continue for seed2 or stop at seed
+	
+	char continue_flag = ''
+	while (1){
+		cout << "The old SEED finished, will you continue for SEED2 ? (Y/N)" << endl;
+		cin >> continue_flag;
+		if (continue_flag == 'N' || continue_flag == 'n'){
+			exit();
+		} else if (continue_flag == 'Y' || continue_flag == 'y'){
+			break;
+		}
+	}
+
 	statis_data << "Second Seed Result"<< endl;
 
 	/*
-	argv[2] = "input_from_output.fastq";    //ÊäÈëÃ¿¸öclusterµÄcore
+	argv[2] = "input_from_output.fastq";    //è¾“å…¥æ¯ä¸ªclusterçš„core
 	argv[4] = "output2.txt";  
 	argv[6] = "3";   // SHIFT
 	argv[8] = "5";   // MISMATCH*/
@@ -2968,10 +3047,10 @@ int main(int argc, char * argv[])
 	// output.txt --> input2.fastq
 
 	cout << endl << "Running Seed For the Second Time" << endl;
-	old_seed(new_argc,new_argv);         //¶ÔµÚÒ»±éseedºóÃ¿¸öclusterµÄcore½øĞĞseed
+	old_seed(new_argc,new_argv);         //å¯¹ç¬¬ä¸€éseedåæ¯ä¸ªclusterçš„coreè¿›è¡Œseed
 
 	/************************************************************************/
-	/*  ¸ù¾İoutput2 ÔÙ´ÎºÏ²¢                                                                    */
+	/*  æ ¹æ®output2 å†æ¬¡åˆå¹¶                                                                    */
 	/************************************************************************/
 	time_t start,end;
 	cout << endl << "Integrate the results of first seed and second seed" << endl;
@@ -3054,7 +3133,7 @@ int main(int argc, char * argv[])
 			//cout << "size\t" << i << "\tnum\t" << cluster_seed_size.count(i) << "\tratio\t"<< (double) cluster_seed_size.count(i)/cluster_seed_size.size()<< endl;
 			statis_data << "size\t" << i << "\tnum\t" << cluster_seed_size.count(i) << "\tratio\t"<< (double) cluster_seed_size.count(i)/cluster_seed_size.size()<< endl;
 		}	
-		// ÅÅ³ı size Îª1 µÄ cluster
+		// æ’é™¤ size ä¸º1 çš„ cluster
 		if(i!=0){
 			expectation += (double) cluster_seed_size.count(i)/cluster_seed_size.size() * i;
 		}
@@ -3063,7 +3142,7 @@ int main(int argc, char * argv[])
 
 	//expectation /= 1-(double) cluster_seed_size.count(1)/cluster_seed_size.size();
 
-	int expectation_int = (int) (expectation+0.5);  //cluster ´óĞ¡ÆÚÍûÖµ
+	int expectation_int = (int) (expectation+0.5);  //cluster å¤§å°æœŸæœ›å€¼
 
 
 	cout << "expectation\t" << expectation_int << endl;
@@ -3148,7 +3227,14 @@ int main(int argc, char * argv[])
 				for (multimap<int,string>::iterator it=ret.first; it!=ret.second; ++it){
 					clid_seq_kmeans_part.insert(pair<int,string>(it->first,it->second));
 				}
-				multimap<int,string> clid_seq_after_kmeans = K_Means(clid_seq_kmeans_part,expectation_int);
+
+				multimap<int,string> clid_seq_after_kmeans;
+				if (KM_flag == 1){
+					clid_seq_after_kmeans = K_Means_1(clid_seq_kmeans_part,expectation_int);
+				} else(KM_flag == 2){
+					clid_seq_after_kmeans = K_Means_2(clid_seq_kmeans_part,expectation_int);
+				}
+				
 				clid_seq.erase(cluster_id);
 
 				multimap<int, string>::iterator iter;
@@ -3213,9 +3299,9 @@ int main(int argc, char * argv[])
 
 	}
 
-	// ±È¶Ôbowtie2
+	// æ¯”å¯¹bowtie2
 
-	// Ô­Ê¼seed j-index  GXX
+	// åŸå§‹seed j-index  GXX
 	
 	clid_seq.clear();
 	
