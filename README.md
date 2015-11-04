@@ -94,8 +94,6 @@ con=>condition: Continue?(Y/N)
 st->op1->con
 con(yes)->op2->op3->e
 con(no)->e
-
-
 ```
 
 <a name="1map">
