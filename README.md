@@ -80,23 +80,68 @@ $ SEED2 –-input input.fastq –-output output.txt
 $ SEED2 –-input input.fastq -–output output.txt –L 30 –W 12 –S1 2 –M1 4 --reverse
 ```
 
+
+
+
 <a name="Algorithm Detail">
 ##Algorithm Detail
+##1. A glance of SEED2
 
-```flow
-st=>start: Start
-e=>end: End
-op1=>operation: SEED
-op2=>operation: SEED2
-op3=>operation: k-means
-con=>condition: Continue?(Y/N)
-
-st->op1->con
-con(yes)->op2->op3->e
-con(no)->e
-```
-
+![flowchart](http://1.easybuy1.sinaapp.com/seed2/flowchart.PNG)
+##2. Algorithm detail
+This part introduces the process of SEED2 in detail.
+###Step 1-SEED on reads
+Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads for the first time and get clusters result. The mismatch and shift are small so the rule to judge two clusters are simialr is strict 
+![SEED](http://1.easybuy1.sinaapp.com/seed2/%E5%B9%BB%E7%81%AF%E7%89%871.PNG)
+###Step 2-SEED on cores
+Extract cores from each cluster, and use original *SEED* to cluster all cores. 
+![extract cores](http://1.easybuy1.sinaapp.com/seed2/%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
+In this time, the mismatch and shift are enlarged and the rule to judge the similarity is loosen. We hope to optimize the result of first step. 
+![SEED on cores](http://1.easybuy1.sinaapp.com/seed2/%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
+###Step 3-kmeans on large clusters
+Now we successfully use high-efficient algorithm SEED to get a rough cluster result, and next step we will find out those clusters which are too large and use kmeans algorithm to split into small sub-clusters precisely.
+![kmeans](http://1.easybuy1.sinaapp.com/seed2/%E5%B9%BB%E7%81%AF%E7%89%874.PNG)
+####kmeans - 2 strategies
+In kmeans algorithm, I need to represent the read with array. And I have two strategies, each has pros and cons.
 <a name="1map">
-####1st mapping algorithm
+####1st mapping algorithm-KM1
+Use a N-D array to represent a N-length read. It will cost much memory and the rule is strict so the result is precise.
+eg.
+For two reads
+    ACGTACGTACGT
+    AACGTACGTACG
+they will be represented as (A-1,C-2,G-3,T-4)
+    [1,2,3,4,1,2,3,4,1,2,3,4]
+    [1,1,2,3,4,1,2,3,4,1,2,3]
+calculate the cosine similarity,
+    SIM = 0.84
 <a name="2map">
-####2nd mapping algorithm
+####2nd mapping algorithm-KM2
+Use the percentage of ACGT in a read, a 4-D array to represent a read. In this way, there are less memory needed, and the algorithm can tolerant more differents so the result is less precise but can cover more special situations,like
+
+eg.
+For two reads
+    ACGTACGTACGT
+    AACGTACGTACG
+they will be represented as ([ratio of A,ratio of C, ratio of G, ratio of T])
+    [0.25,0.25,0.25,0.25]
+    [0.33,0.25,0.25,0.17]
+calculate the cosine similarity,
+    SIM = 0.97
+
+Compared with KM1, KM2 are more likely to get the right result, to classify these two reads into one cluster.
+
+
+
+
+
+##3. Experiment result
+I made some experiments to test the performance of the SEED  and compare the result with SEED. ***Jaccard index*** is used to value the precision.
+| Data set| SEED   |  SEED2  |
+| -----   | :---:  | :----:  |
+| SRR1698795| 0.9859 |   0.9955     |
+| SRR2035183|   0.993411   |   0.997966   |
+
+
+
+
