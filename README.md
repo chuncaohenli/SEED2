@@ -111,9 +111,11 @@ For two reads
     ACGTACGTACGT
     AACGTACGTACG
 they will be represented as (A-1,C-2,G-3,T-4)
+
     [1,2,3,4,1,2,3,4,1,2,3,4]
     [1,1,2,3,4,1,2,3,4,1,2,3]
 calculate the cosine similarity,
+
     SIM = 0.84
 <a name="2map">
 ####2nd mapping algorithm-KM2
@@ -121,12 +123,15 @@ Use the percentage of ACGT in a read, a 4-D array to represent a read. In this w
 
 eg.
 For two reads
+
     ACGTACGTACGT
     AACGTACGTACG
 they will be represented as ([ratio of A,ratio of C, ratio of G, ratio of T])
+
     [0.25,0.25,0.25,0.25]
     [0.33,0.25,0.25,0.17]
 calculate the cosine similarity,
+
     SIM = 0.97
 
 Compared with KM1, KM2 are more likely to get the right result, to classify these two reads into one cluster.
@@ -137,6 +142,7 @@ Compared with KM1, KM2 are more likely to get the right result, to classify thes
 
 ##3. Experiment result
 I made some experiments to test the performance of the SEED  and compare the result with SEED. ***Jaccard index*** is used to value the precision.
+
 | Data set| SEED   |  SEED2  |
 | -----   | :---:  | :----:  |
 | SRR1698795| 0.9859 |   0.9955     |
