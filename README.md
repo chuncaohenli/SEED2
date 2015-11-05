@@ -8,7 +8,7 @@
 <a name="overview"/>
 ##What is SEED2
 
-SEED2 is the 2nd version of SEED(https://github.com/baoe/SEED), a software for clustering large sets of Next Generation Sequences (NGS) with hundreds of millions of reads in a time and memory efficient manner. 
+SEED2 is the 2nd version of SEED(https://github.com/baoe/SEED), a software for clustering large sets of Next Generation Sequences (***only human genome avail***) with hundreds of millions of reads in a time and memory efficient manner. 
 <a name="How is SEED2 different from SEED?"/>
 ##How is SEED2 different from SEED?
 
