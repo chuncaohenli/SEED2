@@ -1,8 +1,7 @@
 # SEEDg
 
 [What is SEEDg] (#What is SEEDg)  
-[How SEEDg works?] (#How SEEDg works)
-
+[How SEEDg works?] (#How SEEDg works)	
 [How is SEEDg different from SEED?] (#How is SEEDg different from SEED?)  
 [How to use SEEDg?] (#How to use SEEDg?)  
 
