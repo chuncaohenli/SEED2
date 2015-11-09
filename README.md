@@ -15,27 +15,27 @@ SEEDg is the 2nd version of SEED(https://github.com/baoe/SEED), a software for c
 ##How SEEDg works
 ##1. A glance of SEEDg
 
-![flowchart](http://1.easybuy1.sinaapp.com/SEEDg/flowchart.PNG)
+![flowchart](http://1.easybuy1.sinaapp.com/seed2/flowchart.PNG)
 
 ##2. Algorithm detail
 This part introduces the process of SEEDg in detail.
 <a name="Step 1"/>
 ###Step 1-SEED on all sequences
 Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads for the first time and get clusters result. The mismatch and shift are small so the rule to judge two clusters are simialr is strict 
-![SEED](http://1.easybuy1.sinaapp.com/SEEDg/seedg1.PNG)
+![SEED](http://1.easybuy1.sinaapp.com/seed2/seedg1.PNG)
 ###Step 2-SEED on center sequences
 1. Extract center sequence from each cluster, and use original *SEED* to cluster all center sequences. 
-![extract center sequences](http://1.easybuy1.sinaapp.com/SEEDg/seedg2.PNG)
+![extract center sequences](http://1.easybuy1.sinaapp.com/seed2/seedg2.PNG)
 In this time, the mismatch and shift are enlarged and the rule to judge the similarity is loosen. We hope to optimize the result of first step. 
-![SEED on cores](http://1.easybuy1.sinaapp.com/SEEDg/seedg3.PNG)
+![SEED on cores](http://1.easybuy1.sinaapp.com/seed2/seedg3.PNG)
 2. Adjust the cluster result
 According to the cluster result of center sequences, we can adjust the cluster result of the [Step 1](# Step 1)
 
-![kmeans](http://1.easybuy1.sinaapp.com/SEEDg/seedg4.PNG)
+![kmeans](http://1.easybuy1.sinaapp.com/seed2/seedg4.PNG)
 
 ###Step 3-kmeans on large clusters
 Now we successfully use high-efficient algorithm *SEED* to get a rough cluster result, and next step we will find out those clusters which are too large and use *kmeans* algorithm to split them into small sub-clusters precisely.
-![kmeans](http://1.easybuy1.sinaapp.com/SEEDg/seedg5.PNG)
+![kmeans](http://1.easybuy1.sinaapp.com/seed2/seedg5.PNG)
 ####kmeans - 2 strategies
 In kmeans algorithm, I need to represent the read with array. And I have two strategies, each has pros and cons.
 <a name="1map">
