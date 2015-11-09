@@ -29,7 +29,7 @@ Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads fo
 In this time, the mismatch and shift are enlarged and the rule to judge the similarity is loosen. We hope to optimize the result of first step. 
 ![SEED on cores](http://1.easybuy1.sinaapp.com/seed2/seedg3.PNG)
 2. Adjust the cluster result
-According to the cluster result of center sequences, we can adjust the cluster result of the [Step 1](# Step 1)
+According to the cluster result of center sequences, we can adjust the cluster result of the [Step 1](#Step 1)
 
 ![kmeans](http://1.easybuy1.sinaapp.com/seed2/seedg4.PNG)
 
