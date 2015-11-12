@@ -18,24 +18,46 @@ SEEDg is the 2nd version of SEED(https://github.com/baoe/SEED), a software for c
 ![flowchart](http://1.easybuy1.sinaapp.com/seed2/flowchart.PNG)
 
 ##2. Algorithm detail
-This part introduces the process of SEEDg in detail.
+In this part I will show the process of clustering 9 sequences in detail to explain the algorithm.
 <a name="Step 1"/>
-###Step 1-SEED on all sequences
-Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads for the first time and get clusters result. The mismatch and shift are small so the rule to judge two clusters are simialr is strict 
-![SEED](http://1.easybuy1.sinaapp.com/seed2/seedg1.PNG)
-###Step 2-SEED on center sequences
-1. Extract center sequence from each cluster, and use original *SEED* to cluster all center sequences. 
-![extract center sequences](http://1.easybuy1.sinaapp.com/seed2/seedg2.PNG)
+###Step 1-Run SEED on all sequences
+Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads for the first time and get clusters result. The mismatch and shift are small so the rule to judge two clusters are simialr is strict. 
+
+It is likely that you get three clusters, the large one with 5 sequences, the middle one with 3 sequences and the small one with only 1 sequence.
+
+![SEED](http://1.easybuy1.sinaapp.com/seedg/seedg1.png)
+
+###Step 2-Run SEED on center sequences
+The center sequence of each cluster is marked with different color. And now we need to
+
+1. Extract center sequence from each cluster. 
+2. Use original *SEED* to cluster all center sequences and get the clusters of center sequences. In this example, we split 3 center sequences into 2 clusters, one with the center of the large one and the center of the small one, and another with only the middle one, which means the center of the large one and the small one is similar so in the next step we can merge these two clusters.
+
+
+![extract center sequences](http://1.easybuy1.sinaapp.com/seedg/seedg2.png)
+
 In this time, the mismatch and shift are enlarged and the rule to judge the similarity is loosen. We hope to optimize the result of first step. 
-![SEED on cores](http://1.easybuy1.sinaapp.com/seed2/seedg3.PNG)
-2. Adjust the cluster result
+
+###Step 3-Adjust the cluster result
+
 According to the cluster result of center sequences, we can adjust the cluster result of the [Step 1](#Step 1)
 
-![kmeans](http://1.easybuy1.sinaapp.com/seed2/seedg4.PNG)
+In this example, we merge the large cluster and the small cluster and get two clusters, one with 6 sequences and another with 3.
 
-###Step 3-kmeans on large clusters
+![kmeans](http://1.easybuy1.sinaapp.com/seedg/seedg3.png)
+
+###Step 4-kmeans on large clusters
 Now we successfully use high-efficient algorithm *SEED* to get a rough cluster result, and next step we will find out those clusters which are too large and use *kmeans* algorithm to split them into small sub-clusters precisely.
-![kmeans](http://1.easybuy1.sinaapp.com/seed2/seedg5.PNG)
+
+In this example, we split this large cluster with 6 sequences into 2 smaller clusters with 3 sequences each
+![kmeans](http://1.easybuy1.sinaapp.com/seedg/seedg4.PNG)
+
+###Final result
+So finnaly we split 9 sequences into 3 clusters and each contains 3 sequences. It is much more even than the original algorithm. 
+
+![kmeans](http://1.easybuy1.sinaapp.com/seedg/seedg5.PNG)
+
+
 ####kmeans - 2 strategies
 In kmeans algorithm, I need to represent the read with array. And I have two strategies, each has pros and cons.
 <a name="1map">
