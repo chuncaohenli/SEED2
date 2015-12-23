@@ -8,16 +8,12 @@
 <a name="What is SEEDg"/>
 ##What is SEEDg
 
-SEEDg is the 2nd version of SEED(https://github.com/baoe/SEED), a software for clustering large sets of Next Generation Sequences (**only human genome is the effective input**) with hundreds of millions of reads in a time and memory efficient manner. 
-<a name="How is SEEDg different from SEED?"/>
+SEEDg is the 2nd version of SEED(https://github.com/baoe/SEED), a software for clustering large sets of Next Generation Sequences with hundreds of millions of reads in a time and memory efficient manner. 
 
 <a name="How SEEDg works">
 ##How SEEDg works
-##1. A glance of SEEDg
 
-![flowchart](http://1.easybuy1.sinaapp.com/seed2/flowchart.PNG)
-
-##2. Algorithm detail
+##1. Algorithm detail
 In this part I will show the process of clustering 9 sequences in detail to explain the algorithm.
 <a name="Step 1"/>
 ###Step 1-Run SEED on all sequences
@@ -97,14 +93,38 @@ Compared with KM1, KM2 are more likely to get the right result, to classify thes
 
 
 
-##3. Experiment result
+##2. Experiment result
 I made some experiments to test the performance of the SEED  and compare the result with SEED. ***Jaccard index*** is used to value the precision.
 
-| Data set| SEED   |  SEEDg  |
+SRR2035183
+| Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
 | -----   | :---:  | :----:  |
-| SRR1698795| 0.9859 |   0.9955     |
-| SRR2035183|   0.993411   |   0.997966   |
+| SEEDg|  246548  |   0.98    | 04：34 | 2.12
+| SEED| 243952 |  0.97   |   02：02   |  1.98
+| UCluster| 219148|  0.85   |   05：28   | 0.24
 
+
+SRR2035182
+
+| Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
+| -----   | :---:  | :----:  |
+|SEEDg	|246666	|0.98        |05:04	|	2.12
+|SEED	|244072	|0.97|	02:12	|1.98
+|Ucluster|	219338	|0.85|	04:34|	0.24
+
+SRR1422089
+| Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
+| -----   | :---:  | :----:  |
+|SEEDg| 	188400|	0.89  |      04:35|	2.11
+|SEED |	217471	|0.88	|02:35|	1.98
+|Ucluster|	189012	|0.77	|03:27	|0.12
+
+
+
+
+
+
+<a name="How is SEEDg different from SEED?"/>
 ##How is SEEDg different from SEED?
 
 SEED is an efficient software for clustering large sets of hundreds of millions of reads, but sometimes the cluster result can be uneven, and the size of the cluster can be too large or too small. 
