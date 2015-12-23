@@ -8,7 +8,9 @@
 <a name="What is SEEDg"/>
 ##What is SEEDg
 
-SEEDg is the 2nd version of SEED(https://github.com/baoe/SEED), a software for clustering large sets of Next Generation Sequences with hundreds of millions of reads in a time and memory efficient manner. 
+SEEDg is based on original SEED(https://github.com/baoe/SEED) algorithm, a software for clustering large sets of Next Generation Sequences with hundreds of millions of reads in a time and memory efficient manner. 
+SEED can work on both DNA and RNA reads, but the cluster result on RNA is uneven.
+And SEEDg focus on DNA read， genomic read specifically, and has a more even cluster result than SEED in this aspect.
 
 <a name="How SEEDg works">
 ##How SEEDg works
@@ -96,6 +98,7 @@ Compared with KM1, KM2 are more likely to get the right result, to classify thes
 ##2. Experiment result
 I made some experiments to test the performance of the SEED  and compare the result with SEED. ***Jaccard index*** is used to value the precision.
 
+
 SRR2035183
 
 | Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
@@ -122,7 +125,6 @@ SRR1422089
 |SEEDg| 	188400|	0.89  |      04:35|	2.11|
 |SEED |	217471	|0.88	|02:35|	1.98|
 |Ucluster|	189012	|0.77	|03:27	|0.12|
-
 
 
 
