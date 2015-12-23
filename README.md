@@ -97,27 +97,31 @@ Compared with KM1, KM2 are more likely to get the right result, to classify thes
 I made some experiments to test the performance of the SEED  and compare the result with SEED. ***Jaccard index*** is used to value the precision.
 
 SRR2035183
+
 | Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
-| -----   | :---:  | :----:  |
-| SEEDg|  246548  |   0.98    | 04：34 | 2.12
-| SEED| 243952 |  0.97   |   02：02   |  1.98
-| UCluster| 219148|  0.85   |   05：28   | 0.24
+| -----   | :---:  | :----:  |:----:  |:----:  |
+| SEEDg|  246548  |   0.98    | 04：34 | 2.12|
+| SEED| 243952 |  0.97   |   02：02   |  1.98|
+| UCluster| 219148|  0.85   |   05：28   | 0.24|
+
+
 
 
 SRR2035182
 
 | Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
-| -----   | :---:  | :----:  |
-|SEEDg	|246666	|0.98        |05:04	|	2.12
-|SEED	|244072	|0.97|	02:12	|1.98
-|Ucluster|	219338	|0.85|	04:34|	0.24
+| -----   | :---:  | :----:  |:----:  |:----:  |
+|SEEDg	|246666	|0.98        |05:04	|	2.12|
+|SEED	|244072	|0.97|	02:12	|1.98|
+|Ucluster|	219338	|0.85|	04:34|	0.24|
 
 SRR1422089
+
 | Method| No. of Clusters   |  Jaccard Index  | Time  | Memory(GB) |
-| -----   | :---:  | :----:  |
-|SEEDg| 	188400|	0.89  |      04:35|	2.11
-|SEED |	217471	|0.88	|02:35|	1.98
-|Ucluster|	189012	|0.77	|03:27	|0.12
+| -----   | :---:  | :----:  |:----:  |:----:  |
+|SEEDg| 	188400|	0.89  |      04:35|	2.11|
+|SEED |	217471	|0.88	|02:35|	1.98|
+|Ucluster|	189012	|0.77	|03:27	|0.12|
 
 
 
@@ -172,8 +176,11 @@ shift is the maximum number of shifts allowed from the center sequence in each c
 `--QV1`    	threshold for the base call quality values (QV);
 QV1 is the threshold for the base call quality values (QV) that are provided in the FASTQ files as Phred scores. SEED ignores those mismatches where the sum of the Phred scores of the mismatching bases is lower than the specified QV1 threshold value (0 - 2 * 93). The default value for QV1 is 0
 
-`--QV2`    	another QV threshold;
-It prevents co-clustering of sequences where the sum of all mismatched positions is higher than the threshold value (0 - 40 * 93). The default value for QV2 is 40 * 93
+`--QV2_1`    	another QV threshold for running seed for the first time on all sequences;
+It prevents co-clustering of sequences where the sum of all mismatched positions is higher than the threshold value (0 - 6 * 93). The default value for QV2_1 is 6 * 93
+
+`--QV2_2`    	another QV threshold for running seed for the second time on all center sequences;
+It prevents co-clustering of sequences where the sum of all mismatched positions is higher than the threshold value (0 - 20 * 93). The default value for QV2_2 is 20 * 93
 
 `--reverse`	co-cluster sequences in sense and anti-sense orientation (reverse and complement)
 	
