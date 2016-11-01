@@ -32,7 +32,7 @@ The center sequence of each cluster is marked with different color. And now we n
 2. Use original *SEED* to cluster all center sequences and get the clusters of center sequences. In this example, we split 3 center sequences into 2 clusters, one with the center of the large one and the center of the small one, and another with only the middle one, which means the center of the large one and the small one is similar so in the next step we can merge these two clusters.
 
 
-![extract center sequences](http://1.easybuy1.sinaapp.com/seedg/seedg2.png)
+![extract center sequences](https://y0lmia-ch3302.files.1drv.com/y3mt-NHQ8JcHipomHOzZqzagm6mFO4iK-37-_IUiSlJELvLY22RgIUcShGtMjP5o8Q1wte-W0PjPIDXBYLxF5U0JnqZMMkTn6qHR5Bi-7Hdp5GR7wBkxgDuVa0_ajsZ9dxQm8FWWPMOSiMLKQiSi54UWQyjQi7HwKHgejuGFKJLlSI?width=827&height=1177&cropmode=none)
 
 In this time, the mismatch and shift are enlarged and the rule to judge the similarity is loosen. We hope to optimize the result of first step. 
 
@@ -42,18 +42,18 @@ According to the cluster result of center sequences, we can adjust the cluster r
 
 In this example, we merge the large cluster and the small cluster and get two clusters, one with 6 sequences and another with 3.
 
-![kmeans](http://1.easybuy1.sinaapp.com/seedg/seedg3.png)
+![kmeans](https://yklmia-ch3302.files.1drv.com/y3moSld7e5oVjmDTHojnMvoF7WNvY50Ox--ObOs2jrIrpKd16G3WasE5DrvaFGSUB8zA0Vp8xgl-sA5bs3tK3mC12UUZ4YM9IJCYW2oibhDy6Gh_YZvSG-eF_Hsb2IGZ2OBOtO4cdPOwc6Ub8pdVfXp1dolggvwZ9Yd6Y2dT3Fl2bg?width=848&height=921&cropmode=none)
 
 ###Step 4-kmeans on large clusters
 Now we successfully use high-efficient algorithm *SEED* to get a rough cluster result, and next step we will find out those clusters which are too large and use *kmeans* algorithm to split them into small sub-clusters precisely.
 
 In this example, we split this large cluster with 6 sequences into 2 smaller clusters with 3 sequences each
-![kmeans](http://1.easybuy1.sinaapp.com/seedg/seedg4.PNG)
+![kmeans](https://00jnqq-ch3302.files.1drv.com/y3mwb-JJCLb7ZUBp-kvXlrxVHhdMtrDFZiaYEWv7BU6Y4Il7WtQYRTDodIoNRyX0_1UZRDp9SCw1Fm9w3aqrQM07x99HUcGzALjUd2C-WYcCnbR4or5V5USfRQ5OkX8huWpr5fX9FjowXo7WhZNEnUaz9FqxcGaurRo_31Zk4_tIUU?width=960&height=720&cropmode=none)
 
 ###Final result
 So finnaly we split 9 sequences into 3 clusters and each contains 3 sequences. It is much more even than the original algorithm. 
 
-![kmeans](http://1.easybuy1.sinaapp.com/seedg/seedg5.PNG)
+![kmeans](https://zujnqq-ch3302.files.1drv.com/y3mXL1kDntxEIv7eP4m9NB-kNiVXM_hBvQqL9K6whUw-lh0uXdMiUDH20QfDv87_uuX486OX5yKX1vpITHEkllZztqNyDvjxaDd3HU9ehvUtP2cOt7RHegkcCJHJjL3fxW2SbteNJXd3tD4qB-jomuwT42342vEqLEHJ3ka7V94CGE?width=960&height=720&cropmode=none)
 
 
 ####kmeans - 2 strategies
