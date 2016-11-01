@@ -23,7 +23,7 @@ Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads fo
 
 It is likely that you get three clusters, the large one with 5 sequences, the middle one with 3 sequences and the small one with only 1 sequence.
 
-![SEED](https://1drv.ms/i/s!Al_LW_cYFPR_tGorRlla-9HF9OmW)
+![SEED](https://yelmia-ch3302.files.1drv.com/y3mn3LbYNonNJgEPGCVjE3lS7qEymwhGWkwAMmi7gtPSf2imlozS18iQ9UmbgBHkcwCYGAQb02LMpMR7G0qXDOmyXUFmXbuWArcCsG6jxzLpRznjXud7vxedhKN_0A0jPUsU7riFjYqDOEEKTvFim_zOSLg0B2S_b5RmZuxQgz4kAA?width=960&height=720&cropmode=none)
 
 ###Step 2-Run SEED on center sequences
 The center sequence of each cluster is marked with different color. And now we need to
