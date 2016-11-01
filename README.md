@@ -23,7 +23,7 @@ Use original *SEED* algorithm (https://github.com/baoe/SEED) to cluster reads fo
 
 It is likely that you get three clusters, the large one with 5 sequences, the middle one with 3 sequences and the small one with only 1 sequence.
 
-![SEED](http://1.easybuy1.sinaapp.com/seedg/seedg1.png)
+![SEED](https://1drv.ms/i/s!Al_LW_cYFPR_tGorRlla-9HF9OmW)
 
 ###Step 2-Run SEED on center sequences
 The center sequence of each cluster is marked with different color. And now we need to
