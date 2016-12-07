@@ -1,12 +1,3 @@
-/***************************************************************************
-Module Name:
-	KMeans
-
-History:
-	2003/10/16	Fei Wang
-	2013 luxiaoxun
-***************************************************************************/
-
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
@@ -156,7 +147,7 @@ void KMeans::Cluster(const char* sampleFileName, const char* labelFileName)
 	delete[] next_means;
 }
 
-//N 为特征向量数
+//N 脦陋脤脴脮梅脧貌脕驴脢媒
 void KMeans::Cluster(double *data, int N, int *Label)
 {
 	int size = 0;
